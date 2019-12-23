@@ -1,0 +1,19 @@
+{
+  "name": "auth-api",
+  "version": "0.0.1",
+  "description": "",  
+  "author": "",
+  "private":true,
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.2"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev" : "nodemon src/index.js"
+  }
+}
