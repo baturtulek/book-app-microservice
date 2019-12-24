@@ -1,39 +1,49 @@
 const mongoose  = require("mongoose");
 const Note      = require("../models/noteModel");
-const Book      = require("../models/bookModel");
 
-exports.notes_create = (req, res, next) => {
-    // let info = req.session.user[0];
+exports.notes_create = (req, res) => {
+    let userData = req.userData;
     const note = new Note({
         _id: new mongoose.Types.ObjectId(),
         note: req.body.note,
         book: req.params.bookid,
-        user: info._id
+        user: userData.userId
     });
     note.save()
-    .then(result => {
-        console.log(result);
-        // return res.redirect("/user/mylist");
+    .then(note => {
+        return res.status(200).json({
+            data: { note },
+            errors: [],
+            message: 'Note is created!'
+          });
     });
 };
 
 exports.notes_get_book = (req, res, next) => {
-    let info = req.session.user[0];
-    Note.find({ user: info._id, book: req.params.bookid })
+    let userData = req.userData;
+    Note.find( { user: userData.userId, book: req.params.bookid })
         .select("_id note book")
         .populate({ path: "book", select: "name editor author" })
         .exec()
-        .then(docs => {
-            if (docs.length > 0) {
-                console.log("docs ", docs);
-                return res.render("notes/mynotes", { docs });
+        .then(notes => {
+            if (notes.length > 0) {
+                console.log("docs ", notes);
+                return res.status(200).json({
+                    data: { notes },
+                    errors: [],
+                });
             } else {
-                res.status(204).json();
+                return res.status(404).json({
+                    data: null,
+                    errors: ['Can not find notes!']
+                });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.render("error/500");
+        .catch(error => {
+            return res.status(500).json({
+                data: null,
+                errors: ['Db Error!']
+            });
         });
 };
 

@@ -8,12 +8,12 @@ const isUserLoggedIn = (req, res, next) => {
     })
     .then(response => {
       let statusCode = response.status;
-      console.log(statusCode);
       if (statusCode !== 200) {
         return res.status(401).json({
           message: "Unauthorized"
         });
       }
+      req.userData = response.data.data;
       next();
     })
     .catch(err => {
@@ -22,6 +22,7 @@ const isUserLoggedIn = (req, res, next) => {
       });
     });
 };
+
 
 module.exports = {
     isUserLoggedIn
