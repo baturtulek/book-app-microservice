@@ -7,8 +7,7 @@ router.get('/profile', UserController.get_profile);
 router.post("/login", UserController.user_login);
 router.post("/register", UserController.user_signup);
 router.get("/logout", UserController.user_logout);
-
-// router.get("/addlist/:bookid", checkAuth, UserController.addlist);
-// router.get("/mylist", checkAuth, UserController.mylist);
+router.post("/addlist/:bookid", UserController.addlist);
+router.post("/mylist", UserController.mylist);
 
 module.exports = router;

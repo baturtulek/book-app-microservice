@@ -20,8 +20,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/user", userRoutes);
-
+app.use("/users", userRoutes);
 
 if (process.env.NODE_ENV === 'development') {
     app.listen(process.env.PORT, () => {

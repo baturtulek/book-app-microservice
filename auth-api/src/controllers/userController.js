@@ -12,10 +12,9 @@ exports.get_profile = (req, res) => {
     });
   }
   try {
-    const decoded = jwt.verify(token, 'secret');
-    console.log(decoded);
+    const user = jwt.verify(token, 'secret');
     res.status(200).json({
-      data : decoded,
+      data : {user},
       message: 'successful'
     });
   } catch (error) {
@@ -113,37 +112,50 @@ exports.user_signup = (req, res, next) => {
   }
 
 exports.user_logout = (req, res, next) => {
-    const token = req.headers.authorization;
-    jwt.destroy(token);
-    res.status(200).json({
-        message: 'success'
-      });
+    // const token = utils.getAuthToken(req.headers.authorization);
+    // jwt.invalidate(token);
+    // res.status(200).json({
+    //     message: 'success'
+    // });
 };
 
 // TODO
-exports.addlist = (req, res, next) => {
-    let info = req.session.user[0];
-    User.update({ _id: info._id }, { $addToSet: { list: req.params.bookid } })
+exports.addlist = (req, res) => {
+    const userInfo = req.body;
+    console.log(userInfo);
+    User.update({ _id: userInfo._id }, { $addToSet: { list: req.params.bookid } })
         .exec()
         .then(() => {
-            return res.redirect("/books");
+            return res.status(200).json({
+              message : 'Success'
+            });
         })
         .catch(err => {
-            res.render("error/500");
+          return res.status(500).json({
+            error: err,
+          });
         });
 };
 
-exports.mylist = (req, res, next) => {
-    let info = req.session.user[0];
-    User.findById(info._id)
+exports.mylist = (req, res) => {
+  console.log('MyList in auth api');
+  const userInfo = req.body;
+    User.findById(userInfo.userId)
         .select("list")
         .populate("list")
         .exec()
         .then(books => {
-            console.log("books", books["list"]);
-            return res.render("books/mylist", { books });
+          console.log(books);
+            return res.status(200).json({
+              data    : { books },
+              error   : []
+            });
         })
         .catch(err => {
-            res.render("error/500");
+          console.log(err);
+          return res.status(500).json({
+            data  : null,
+            error : err,
+          });
         });
 };

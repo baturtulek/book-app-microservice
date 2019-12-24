@@ -2,14 +2,14 @@ const mongoose  = require("mongoose");
 const Book      = require("../models/bookModel");
 
 exports.book_get_all = (req, res, next) => {
-    console.log('okasads');
+    console.log('book controller');
     Book.find()
         .select("name editor author image _id")
         .exec()
         .then(books => {
             console.log(books);
             return res.status(200).json({
-                books:books
+                books : books
             });
         })
         .catch(err => {
@@ -28,7 +28,7 @@ exports.book_get_id = (req, res, next) => {
             if (book) {
                 console.log(book);
                 return res.status(200).json({
-                    book:book
+                    book : book
                 });
             } else {
                 return res.status(404).json({
@@ -44,6 +44,7 @@ exports.book_get_id = (req, res, next) => {
 };
 
 exports.book_create = (req, res, next) => {
+    
     const book = new Book({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -65,6 +66,7 @@ exports.book_create = (req, res, next) => {
 };
 
 exports.book_delete = (req, res, next) => {
+    console.log('delete');
     const id = req.params.bookId;
     Book.remove({ _id: id })
         .exec()
