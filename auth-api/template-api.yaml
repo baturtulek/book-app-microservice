@@ -1,0 +1,33 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  UserAuth:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs12.x
+      Handler: src/index.handler
+      Timeout: 12
+      MemorySize: 256
+      Events:
+        Profile:
+          Type: Api
+          Properties:
+            Path: /users/profile
+            Method: get
+        Login:
+          Type: Api
+          Properties:
+            Path: /users/login
+            Method: post
+        Register:
+          Type: Api
+          Properties:
+            Path: /users/register
+            Method: post
+        Logout:
+          Type: Api
+          Properties:
+            Path: /users/logout
+            Method: get
+      Environment:
+        Variables:
+          DB_CONNECTION: 'mongodb+srv://adminovski:bookproject@node-books-bj7w3.mongodb.net/userdb?retryWrites=true&w=majority'

@@ -1,0 +1,9 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  UserBook:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs12.x
+      Handler: src/index.handler
+      Timeout: 12
+      MemorySize: 256

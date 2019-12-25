@@ -3,8 +3,8 @@ const express   = require('express');
 const session   = require('express-session');
 const axios     = require('axios');
 const app       = express();
-const AUTH_API_BASE     = process.env.AUTH_API_BASE;
-const BOOK_API_BASE     = process.env.BOOK_API_BASE;
+const USER_API  = process.env.USER_API;
+const BOOK_API  = process.env.BOOK_API;
 
 app.set('views', 'src/views');
 app.set('view engine', 'ejs');
@@ -35,10 +35,10 @@ app.get('/user/login', (req, res) => {
 app.post('/user/login', async (req, res, next) => {
     const credentials = req.body;
     try {
-      const loginResponse = await axios.post(`${AUTH_API_BASE}/users/login`, credentials);
+      const loginResponse = await axios.post(`${USER_API}/users/login`, credentials);
       const accessToken = loginResponse.data.token;
   
-      const profileResponse = await axios.get(`${AUTH_API_BASE}/users/profile`, {
+      const profileResponse = await axios.get(`${USER_API}/users/profile`, {
         headers: { authorization: `Bearer ${accessToken}` }
       });
       req.session.accessToken = accessToken;
@@ -46,7 +46,8 @@ app.post('/user/login', async (req, res, next) => {
   
       res.redirect('/');
     } catch (err) {
-        if (err.response.status === 401) {
+        console.log(err);
+        if (err.response) {
             return res.redirect('/auth/login?error=invalid_credentials');
           }
       next(err);
@@ -64,7 +65,7 @@ app.get('/user/register', (req, res) => {
 app.post('/user/register', async (req, res, next) => {
     const credentials = req.body;
     try {
-      await axios.post(`${AUTH_API_BASE}/users/register`, credentials)
+      await axios.post(`${USER_API}/users/register`, credentials)
       res.redirect('/user/login');
     } catch (err) {
         console.log(err);
@@ -82,7 +83,7 @@ app.get('/user/logout', async (req, res) => {
     //We use JWT.
 
     // try {
-    //     await axios.get(`${AUTH_API_BASE}/users/logout`, {
+    //     await axios.get(`${USER_API}/users/logout`, {
     //         headers: { authorization: `Bearer ${req.session.accessToken}` }
     //     });
     // delete req.session.accessToken;
@@ -95,7 +96,7 @@ app.get('/user/logout', async (req, res) => {
 
 app.get('/', async (req, res, next) => {
     try {
-      const bookListResponse = await axios.get(`${BOOK_API_BASE}/books/`);
+      const bookListResponse = await axios.get(`${BOOK_API}/books/`);
       res.render('books/bookList', { books: bookListResponse.data.books });
     } catch (err) {
       next(err);
@@ -104,7 +105,7 @@ app.get('/', async (req, res, next) => {
 
 app.get("/books/detail/:bookId", async (req, res) => {
     try {
-        const bookResponse = await axios.get(`${BOOK_API_BASE}/books/detail/${req.params.bookId}`);
+        const bookResponse = await axios.get(`${BOOK_API}/books/detail/${req.params.bookId}`);
         if (!bookResponse.data.book) {
           return res.render('error/404');
         }
@@ -128,7 +129,7 @@ app.post("/books/add/", async (req, res, next) => {
     }
     const bookInformations = req.body;
     try {
-        await axios.post(`${BOOK_API_BASE}/books/add`, bookInformations, {
+        await axios.post(`${BOOK_API}/books/add`, bookInformations, {
             headers: { authorization: `Bearer ${req.session.accessToken}` }
         });
         res.redirect('/');
@@ -142,51 +143,7 @@ app.get('/books/delete/:bookId', async (req, res, next) => {
         return res.render('error/unauthorized');
     }
     try {
-        await axios.get(`${BOOK_API_BASE}/books/delete/${req.params.bookId}`, {
-            headers: { authorization: `Bearer ${req.session.accessToken}` }
-        });
-        res.redirect('/');
-    } catch (err) {
-      next(err);
-    }
-});
-
-app.get('/user/addList/:bookId', async (req, res) => {
-    if (typeof req.session.accessToken === 'undefined') {
-        return res.render('error/unauthorized');
-    }
-    try {
-        await axios.post(`${AUTH_API_BASE}/users/addList/${req.params.bookId}`, req.session.user ,{
-            headers: { authorization: `Bearer ${req.session.accessToken}` }
-        });
-        res.redirect('/');
-    } catch (err) {
-      next(err);
-    }
-});
-
-app.get('/user/myList', async (req, res) => {
-    if (typeof req.session.accessToken === 'undefined') {
-        return res.render('error/unauthorized');
-    }
-    try {
-        let books = await axios.post(`${AUTH_API_BASE}/users/mylist`, req.session.user ,{
-            headers: { authorization: `Bearer ${req.session.accessToken}` }
-        });
-        console.log(books);
-        return res.render('books/mylist', { books });
-    } catch (err) {
-      console.log(err);
-    }
-});
-
-app.get('notes/add/:bookId', async (req, res) => {
-    const userNotes = req.body;
-    if (typeof req.session.accessToken === 'undefined') {
-        return res.render('error/unauthorized');
-    }
-    try {
-        await axios.post(`${BOOK_API_BASE}/notes/add/${req.params.bookId}`, userNotes ,{
+        await axios.get(`${BOOK_API}/books/delete/${req.params.bookId}`, {
             headers: { authorization: `Bearer ${req.session.accessToken}` }
         });
         res.redirect('/');

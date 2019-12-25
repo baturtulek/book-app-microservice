@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express       = require('express');
 const mongoose      = require("mongoose");
+const awsServerlessExpress  = require('aws-serverless-express');
 const userRoutes    = require("../src/routes/userRoute");
 const app           = express();
 
@@ -24,8 +25,8 @@ app.use("/users", userRoutes);
 
 if (process.env.NODE_ENV === 'development') {
     app.listen(process.env.PORT, () => {
-    console.log(`Auth service listening on port ${process.env.PORT}!`);
-});
+        console.log(`Auth service listening on port ${process.env.PORT}!`);
+    });
 } else {
     const server = awsServerlessExpress.createServer(app);
     module.exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context);

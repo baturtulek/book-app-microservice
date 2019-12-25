@@ -2,7 +2,6 @@ const mongoose  = require("mongoose");
 const Book      = require("../models/bookModel");
 
 exports.book_get_all = (req, res, next) => {
-    console.log('book controller');
     Book.find()
         .select("name editor author image _id")
         .exec()
@@ -44,7 +43,6 @@ exports.book_get_id = (req, res, next) => {
 };
 
 exports.book_create = (req, res, next) => {
-    
     const book = new Book({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -81,4 +79,3 @@ exports.book_delete = (req, res, next) => {
             });
         });
 };
-

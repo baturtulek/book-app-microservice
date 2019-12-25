@@ -120,42 +120,43 @@ exports.user_logout = (req, res, next) => {
 };
 
 // TODO
-exports.addlist = (req, res) => {
-    const userInfo = req.body;
-    console.log(userInfo);
-    User.update({ _id: userInfo._id }, { $addToSet: { list: req.params.bookid } })
-        .exec()
-        .then(() => {
-            return res.status(200).json({
-              message : 'Success'
-            });
-        })
-        .catch(err => {
-          return res.status(500).json({
-            error: err,
-          });
-        });
-};
+// exports.addlist = (req, res) => {
+//     const userInfo = req.body;
+//     console.log(userInfo);
+//     User.update({ _id: userInfo.userId }, { $addToSet: { list: req.params.bookid } })
+//         .exec()
+//         .then((result) => {
+//           console.log(result);
+//             return res.status(200).json({
+//               message : 'Success'
+//             });
+//         })
+//         .catch(err => {
+//           return res.status(500).json({
+//             error: err,
+//           });
+//         });
+// };
 
-exports.mylist = (req, res) => {
-  console.log('MyList in auth api');
-  const userInfo = req.body;
-    User.findById(userInfo.userId)
-        .select("list")
-        .populate("list")
-        .exec()
-        .then(books => {
-          console.log(books);
-            return res.status(200).json({
-              data    : { books },
-              error   : []
-            });
-        })
-        .catch(err => {
-          console.log(err);
-          return res.status(500).json({
-            data  : null,
-            error : err,
-          });
-        });
-};
+// exports.mylist = (req, res) => {
+//   console.log('MyList in auth api');
+//   const userInfo = req.body;
+//     User.findById(userInfo.userId)
+//         .select("list")
+//         // .populate("list")
+//         .exec()
+//         .then(books => {
+//           console.log(books);
+//             return res.status(200).json({
+//               data    : { books },
+//               error   : []
+//             });
+//         })
+//         .catch(err => {
+//           console.log(err);
+//           return res.status(500).json({
+//             data  : null,
+//             error : err,
+//           });
+//         });
+// };
