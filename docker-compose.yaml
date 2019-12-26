@@ -1,0 +1,38 @@
+version: '2.4'
+
+services:
+  user-api:
+    build:
+      context: ./user-api/
+    networks:
+      - book-network
+    environment:
+      - DB_CONNECTION=mongodb+srv://adminovski:bookproject@node-books-bj7w3.mongodb.net/userdb?retryWrites=true&w=majority
+      - NODE_ENV=development
+      - PORT=2000
+  book-api:
+    build:
+      context: ./book-api/
+    networks:
+      - book-network
+    environment:
+      - USER_API=http://user-api:2000
+      - DB_CONNECTION=mongodb+srv://adminovski:bookproject@node-books-bj7w3.mongodb.net/bookdb?retryWrites=true&w=majority
+      - NODE_ENV=development
+      - PORT=2001
+  ui:
+    build:
+      context: ./ui/
+    networks:
+      - book-network
+    ports:
+      - '9000:2002'
+    environment:
+      - USER_API=http://user-api:2000
+      - BOOK_API=http://book-api:2001
+      - NODE_ENV=development
+      - PORT=2002
+
+networks:
+  book-network:
+    driver: bridge

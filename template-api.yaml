@@ -4,7 +4,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs12.x
-      Handler: auth-api/src/index.handler
+      Handler: user-api/src/index.handler
       Timeout: 12
       MemorySize: 256
       Events:

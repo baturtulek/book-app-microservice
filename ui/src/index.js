@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('src/public'));
 
 app.use(session({
-    secret: 'some random secret',
+    secret: 'secretsecret',
     resave: false,
     saveUninitialized: true
 }));
@@ -43,14 +43,12 @@ app.post('/user/login', async (req, res, next) => {
       });
       req.session.accessToken = accessToken;
       req.session.user = profileResponse.data.data.user;
-  
       res.redirect('/');
     } catch (err) {
-        console.log(err);
-        if (err.response) {
-            return res.redirect('/auth/login?error=invalid_credentials');
-          }
-      next(err);
+        if (err.response.status == 401) {
+            return res.redirect('login?error=invalid_credentials');
+        }
+        next(err);
     }
 });
 
@@ -63,12 +61,15 @@ app.get('/user/register', (req, res) => {
 });
 
 app.post('/user/register', async (req, res, next) => {
-    const credentials = req.body;
+  const credentials = req.body;
     try {
-      await axios.post(`${USER_API}/users/register`, credentials)
+      let response = await axios.post(`${USER_API}/users/register`, credentials)
       res.redirect('/user/login');
     } catch (err) {
-        console.log(err);
+        if(err.response.status === 409){
+          let status = err.response.status;
+          return res.render('auth/register', {status});
+        }
         next(err);
     }
 });
@@ -80,18 +81,6 @@ app.get('/user/logout', async (req, res) => {
     delete req.session.accessToken;
     delete req.session.user;
     res.redirect('/');
-    //We use JWT.
-
-    // try {
-    //     await axios.get(`${USER_API}/users/logout`, {
-    //         headers: { authorization: `Bearer ${req.session.accessToken}` }
-    //     });
-    // delete req.session.accessToken;
-    // delete req.session.user;
-    // res.redirect('/');
-    // } catch (err) {
-    //     console.log(err.status);
-    // }
 });
 
 app.get('/', async (req, res, next) => {
@@ -99,7 +88,7 @@ app.get('/', async (req, res, next) => {
       const bookListResponse = await axios.get(`${BOOK_API}/books/`);
       res.render('books/bookList', { books: bookListResponse.data.books });
     } catch (err) {
-      next(err);
+      return res.render('error/500');
     }
 });
 
@@ -111,7 +100,7 @@ app.get("/books/detail/:bookId", async (req, res) => {
         }
         res.render('books/detail', { book: bookResponse.data.book });
       } catch (err) {
-        console.log(err);
+        return res.render('error/500');
       }
 });
 
@@ -119,7 +108,6 @@ app.get('/books/add', (req, res) => {
     if (typeof req.session.accessToken === 'undefined') {
         return res.render('error/unauthorized');
       }
-    
     return res.render('books/addBook');
 });
 
@@ -134,7 +122,7 @@ app.post("/books/add/", async (req, res, next) => {
         });
         res.redirect('/');
     } catch (err) {
-      next(err);
+      return res.render('error/500');
     }
 });
 
@@ -148,9 +136,13 @@ app.get('/books/delete/:bookId', async (req, res, next) => {
         });
         res.redirect('/');
     } catch (err) {
-      next(err);
+      return res.render('error/500');
     }
 });
+
+app.get('*', (req, res) => { 
+  res.render('error/404.ejs');
+}) 
 
 app.listen(process.env.PORT, () => {
     console.log(`UI listening on port ${process.env.PORT}!`);

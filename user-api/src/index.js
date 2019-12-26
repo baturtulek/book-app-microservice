@@ -1,9 +1,9 @@
 require("dotenv").config();
-const express       = require('express');
-const mongoose      = require("mongoose");
+const express               = require('express');
+const mongoose              = require("mongoose");
 const awsServerlessExpress  = require('aws-serverless-express');
-const userRoutes    = require("../src/routes/userRoute");
-const app           = express();
+const userRoutes            = require("../src/routes/userRoute");
+const app                   = express();
 
 mongoose
     .connect(process.env.DB_CONNECTION, {

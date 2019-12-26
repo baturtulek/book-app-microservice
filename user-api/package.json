@@ -2,8 +2,22 @@
   "name": "auth-api",
   "version": "0.0.1",
   "description": "",
-  "author": "",
   "private": true,
+  "author": "Book Application",
+  "contributors": [
+    {
+      "name": "Ahmet Batur Tülek",
+      "email": "baturtulek97@gmail.com"
+    },
+    {
+      "name": "Cafer Bahar",
+      "email": "cbahar955@gmail.com"
+    },
+    {
+      "name": "Mustafa Erkam Badın",
+      "email": "erkam.badin@ug.bilkent.edu.tr"
+    }
+  ],
   "dependencies": {
     "aws-serverless-express": "^3.3.6",
     "bcrypt": "^3.0.7",

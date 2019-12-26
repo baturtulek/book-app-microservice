@@ -1,13 +1,8 @@
 <%- include('../common/header') %>
 <div class="row">
-    <div
-        class="alert alert-danger col-md-4 offset-md-4"
-        role="alert"
-        id="errorMessage"
-        style="display:none;"
-    >
+    <div class="alert alert-danger col-md-4 offset-md-4" role="alert" id="errorMessage" style="display:none;">
         Invalid credentials!
-    </div>
+      </div>
     <div class="col-md-4 offset-md-4">
         <h1>Login</h1>
     </div>
@@ -28,10 +23,10 @@
     </div>
 </div>
 <script>
-    window.addEventListener("load", function() {
-        if (window.location.search.indexOf("error") > -1) {
-            $("#errorMessage").show();
-        }
+    window.addEventListener('load', function () {
+      if (window.location.search.indexOf('error') > -1) {
+        $('#errorMessage').show();
+      }
     });
-</script>
+  </script>
 <%- include('../common/footer') %>

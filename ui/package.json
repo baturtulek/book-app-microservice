@@ -1,18 +1,22 @@
 {
-  "name": "ui",
+  "name": "UI",
   "version": "0.0.1",
   "description": "",
   "private": true,
   "author": "Book Application",
-  "contributors": [
-      {
-          "name": "Cafer Bahar",
-          "email": "cbahar955@gmail.com"
-      },
-      {
-          "name": "Ahmet Batur Tülek",
-          "email": "baturtulek97@gmail.com"
-      }
+ "contributors": [   
+    {
+      "name": "Ahmet Batur Tülek",
+      "email": "baturtulek97@gmail.com"
+    },
+    {
+      "name": "Cafer Bahar",
+      "email": "cbahar955@gmail.com"
+    },
+    {
+      "name": "Mustafa Erkam Badın",
+      "email": "erkam.badin@ug.bilkent.edu.tr"
+    }
   ],
   "dependencies": {
     "axios": "^0.19.0",
