@@ -1,12 +1,11 @@
 const mongoose  = require("mongoose");
 const Book      = require("../models/bookModel");
 
-exports.book_get_all = (req, res, next) => {
+exports.book_get_all = (req, res) => {
     Book.find()
         .select("name editor author image _id")
         .exec()
         .then(books => {
-            console.log(books);
             return res.status(200).json({
                 books : books
             });
@@ -18,20 +17,19 @@ exports.book_get_all = (req, res, next) => {
         });
 }
 
-exports.book_get_id = (req, res, next) => {
-    const id = req.params.bookId;
-    Book.findById(id)
+exports.book_get_id = (req, res) => {
+    const bookId = req.params.bookId;
+    Book.findById(bookId)
         .select("name editor author image")
         .exec()
         .then(book => {
             if (book) {
-                console.log(book);
                 return res.status(200).json({
                     book : book
                 });
             } else {
                 return res.status(404).json({
-                    message: 'We couldt find the Book!'
+                    message: 'We coulndt find the Book!'
                 });
             }
         })
@@ -42,7 +40,7 @@ exports.book_get_id = (req, res, next) => {
         });
 };
 
-exports.book_create = (req, res, next) => {
+exports.book_create = (req, res) => {
     const book = new Book({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -63,10 +61,9 @@ exports.book_create = (req, res, next) => {
         });
 };
 
-exports.book_delete = (req, res, next) => {
-    console.log('delete');
-    const id = req.params.bookId;
-    Book.remove({ _id: id })
+exports.book_delete = (req, res) => {
+    const bookId = req.params.bookId;
+    Book.remove({ _id: bookId })
         .exec()
         .then(result => {
             return res.status(201).json({

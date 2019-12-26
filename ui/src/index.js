@@ -1,10 +1,10 @@
 require("dotenv").config();
+const USER_API  = process.env.USER_API;
+const BOOK_API  = process.env.BOOK_API;
 const express   = require('express');
 const session   = require('express-session');
 const axios     = require('axios');
 const app       = express();
-const USER_API  = process.env.USER_API;
-const BOOK_API  = process.env.BOOK_API;
 
 app.set('views', 'src/views');
 app.set('view engine', 'ejs');
@@ -45,7 +45,7 @@ app.post('/user/login', async (req, res, next) => {
       req.session.user = profileResponse.data.data.user;
       res.redirect('/');
     } catch (err) {
-        if (err.response.status == 401) {
+        if (err.response.status === 401) {
             return res.redirect('login?error=invalid_credentials');
         }
         next(err);
@@ -63,10 +63,11 @@ app.get('/user/register', (req, res) => {
 app.post('/user/register', async (req, res, next) => {
   const credentials = req.body;
     try {
-      let response = await axios.post(`${USER_API}/users/register`, credentials)
+      await axios.post(`${USER_API}/users/register`, credentials)
       res.redirect('/user/login');
     } catch (err) {
-        if(err.response.status === 409){
+        if(err.response.status == 409){
+          console.log('REQUEST FAILED STATUS CODE ' + err);
           let status = err.response.status;
           return res.render('auth/register', {status});
         }
@@ -83,10 +84,10 @@ app.get('/user/logout', async (req, res) => {
     res.redirect('/');
 });
 
-app.get('/', async (req, res, next) => {
+app.get(['/', '/books'], async (req, res) => {
     try {
       const bookListResponse = await axios.get(`${BOOK_API}/books/`);
-      res.render('books/bookList', { books: bookListResponse.data.books });
+      res.render('books/booklist', { books: bookListResponse.data.books });
     } catch (err) {
       return res.render('error/500');
     }
@@ -108,10 +109,10 @@ app.get('/books/add', (req, res) => {
     if (typeof req.session.accessToken === 'undefined') {
         return res.render('error/unauthorized');
       }
-    return res.render('books/addBook');
+    return res.render('books/addbook');
 });
 
-app.post("/books/add/", async (req, res, next) => {
+app.post("/books/add/", async (req, res) => {
     if (typeof req.session.accessToken === 'undefined') {
         return res.render('error/unauthorized');
     }
@@ -126,7 +127,7 @@ app.post("/books/add/", async (req, res, next) => {
     }
 });
 
-app.get('/books/delete/:bookId', async (req, res, next) => {
+app.get('/books/delete/:bookId', async (req, res) => {
     if (typeof req.session.accessToken === 'undefined') {
         return res.render('error/unauthorized');
     }
@@ -147,4 +148,3 @@ app.get('*', (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log(`UI listening on port ${process.env.PORT}!`);
 });
-  

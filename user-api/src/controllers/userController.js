@@ -67,7 +67,8 @@ exports.user_login = (req, res, next) => {
         });
   }
 
-exports.user_signup = (req, res, next) => {
+exports.user_signup = (req, res) => {
+  console.log('REGITSER IN USER API');
     User.find({email: req.body.email})
         .exec()
         .then((user) => {
@@ -90,7 +91,6 @@ exports.user_signup = (req, res, next) => {
                 });
                 user.save()
                     .then((result) => {
-                      console.log(result);
                       res.status(201).json({
                         message: 'User created',
                       });
@@ -110,11 +110,3 @@ exports.user_signup = (req, res, next) => {
           });
         });
   }
-
-exports.user_logout = (req, res, next) => {
-    // const token = utils.getAuthToken(req.headers.authorization);
-    // jwt.invalidate(token);
-    // res.status(200).json({
-    //     message: 'success'
-    // });
-};

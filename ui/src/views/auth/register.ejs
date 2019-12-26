@@ -1,15 +1,15 @@
 <%- include('../common/header') %>
 <div class="row">
-  <div class="col-md-4 offset-md-4">
+  <div class="col-md-4 offset-md-4 text-center">
     <h1>Register</h1>
   </div>
   <div class="col-md-4 offset-md-4">
     <form method="post" action="/user/register">
-        <div class="mb-5 text-center justify-content-center">
-            <% if(status === 409){ %>
-                <label>This Mail address already exists!</label>
-            <% } %>
-          </div>
+      <% if(status === 409){ %>
+        <div class="mb-3 mt-3 text-center justify-content-center">
+            <label style='color:red'}>This Mail address already exists!</label>
+        </div>
+      <% } %>
       <div class="mb-3">
         <label for="email">Email :</label>
         <input type="text" class="form-control" name="email">
@@ -18,12 +18,12 @@
         <label for="name">Username:</label>
         <input type="text" class="form-control" name="name">
       </div>
-      <div class="mb-3">
+      <div class="mb-5">
         <label for="password">Password:</label>
         <input type="password" class="form-control" name="password">
       </div>
-      <div class="mb-3">
-        <input type="submit" class="btn btn-primary" value="Register">
+      <div class="text-center">
+        <input type="submit" class="btn btn-outline-success" value="Register">
       </div>
     </form>
   </div>

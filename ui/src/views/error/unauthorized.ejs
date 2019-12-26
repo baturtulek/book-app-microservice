@@ -1,5 +1,19 @@
 <%- include('../common/header') %>
-<div class="alert alert-danger" role="alert" id="errorMessage">
-  You don't have permission to view this page!
+
+<style>
+  .page-wrap {
+    min-height: 80vh;
+  }
+</style>
+
+<div class="page-wrap d-flex flex-row align-items-center">
+  <div class="container">
+      <div class="row justify-content-center">
+          <div class="col-md-12 text-center">
+              <div class="mb-4 lead">You don't have permission to view this page!</div>
+          </div>
+      </div>
+  </div>
 </div>
+
 <%- include('../common/footer') %>

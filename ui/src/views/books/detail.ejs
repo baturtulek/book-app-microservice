@@ -1,15 +1,18 @@
 <%- include('../common/header') %>
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1><%= book.name %></h1>
-        </div>
+    <div class="row justify-content-center text-center">
         <div class="col-md-6 mt-5">
-            <img src="<%= book.image %>" width="400" />
+            <h1 style="font-size: 48px;"><%= book.name %></h1>
+            <div class="mt-5">
+                <p><b class="detailHeading">Editor :</b><%= book.editor %></p>
+                <p><b class="detailHeading">Author :</b><%= book.author %></p>
+            </div>
+        </div>
+        <div class="col-md-6 mt-3">
+            <img src="<%= book.image %>" width="200" />
         </div>
         <div class="col-md-6 bookDetail">
-            <p><b class="detailHeading">Editor :</b><%= book.editor %></p>
-            <p><b class="detailHeading">Author :</b><%= book.author %></p>
+            
         </div>
     </div>
 </div>

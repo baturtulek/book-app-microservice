@@ -50,7 +50,7 @@
                 <% } else { %>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/logout">Log out</a>
+                            <a class="nav-link" href="/user/logout">Log out (<%= session.user.email %>)</a>
                         </li>
                     </ul>
                 <% } %>

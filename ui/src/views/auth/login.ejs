@@ -3,21 +3,21 @@
     <div class="alert alert-danger col-md-4 offset-md-4" role="alert" id="errorMessage" style="display:none;">
         Invalid credentials!
       </div>
-    <div class="col-md-4 offset-md-4">
+    <div class="col-md-4 offset-md-4 text-center mb-4">
         <h1>Login</h1>
     </div>
     <div class="col-md-4 offset-md-4">
         <form method="post" action="/user/login" >
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="email">Email:</label>
                 <input type="text" class="form-control" name="email" />
             </div>
-            <div class="mb-3">
+            <div class="mb-5">
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" name="password" />
             </div>
-            <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Login" />
+            <div class="text-center">
+                <input type="submit" class="btn btn-outline-success" value="Login" />
             </div>
         </form>
     </div>

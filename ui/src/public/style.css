@@ -2,35 +2,64 @@ body {
     padding-top: 5rem;
     background-color: #F5F5F5;
 }
+nav .nav-item .nav-link {
+    font-family: "Barlow", sans-serif;
+    color: #fff !important;
+    padding: 1.0em 1.2em !important;
+    letter-spacing: 2px;
+    font-size: 14px;
+}
+nav .nav-item .nav-link:hover {
+    color: #969696 !important;
+}
+a{
+    text-decoration: none;
+    color:white;
+}
+a:hover{
+    text-decoration: none;
+    color:white;
+}
 .container {
     padding: 1rem 0;
 }
 .book {
+    transition: all 0.3s;
     text-align: center;
     margin: 0px auto;
     width: 500px;
     height: 280px;
     background-color: #fff;
     border-radius: 15px;
+    box-shadow: 0px 0px 15px 1px rgba(150,150,150,1);
+}
+.book:hover{
+    box-shadow: 0px 0px 25px 5px rgba(150,150,150,1);
 }
 .book table {
     border-collapse: separate;
     border-spacing: 0 1em;
-}
+    width: 500px;
 
+}
+.btn-outline-success{
+    width:150px;
+}
 .heading{
     font-size:17px;
     padding-right: 30px;
 }
-
 .bookDetail{
     margin-top: 80px;
 }
-
 .bookDetail p{
     font-size:18px;
 }
 .detailHeading{
     font-size:22px;
     padding-right: 30px;
+}
+.unauthorized{
+    width:500px;
+    text-align: center;
 }

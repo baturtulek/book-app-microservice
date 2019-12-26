@@ -1,28 +1,24 @@
 <%- include('../common/header') %>
 <div class="row">
-    <div class="col-md-4 offset-md-4">
+    <div class="col-md-4 offset-md-4 mb-4 text-center">
         <h1>Add Book</h1>
     </div>
     <div class="col-md-4 offset-md-4">
         <form method="post" action="/books/add">
-            <div class="mb-3">
-                <label for="name">Book Name :</label>
-                <input type="text" class="form-control" name="name" />
+            <div class="mb-5">
+                <input type="text" class="form-control" name="name" placeholder="Book Name"/>
             </div>
-            <div class="mb-3">
-                <label for="editor">Editor:</label>
-                <input type="text" class="form-control" name="editor" />
+            <div class="mb-5">
+                <input type="text" class="form-control" name="author" placeholder="Author" />
             </div>
-            <div class="mb-3">
-                <label for="author">Author:</label>
-                <input type="text" class="form-control" name="author" />
+            <div class="mb-5">
+                <input type="text" class="form-control" name="editor" placeholder="Editor" />
             </div>
-            <div class="mb-3">
-                <label for="author">Image Url:</label>
-                <input type="text" class="form-control" name="image" />
+            <div class="mb-5">
+                <input type="text" class="form-control" name="image" placeholder="Image Url" />
             </div>
-            <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Add" />
+            <div class='text-center'>
+                <input type="submit" class="btn btn-outline-success" value="Add" />
             </div>
         </form>
     </div>

@@ -5,7 +5,10 @@ WORKDIR /srv
 
 COPY . .
 
-RUN npm install
+RUN apk add --no-cache make gcc g++ python && \
+  npm ci && \
+  npm rebuild bcrypt --build-from-source && \
+  apk del make gcc g++ python
 
 ENV DB_CONNECTION "mongodb+srv://adminovski:bookproject@node-books-bj7w3.mongodb.net/userdb?retryWrites=true&w=majority"
 ENV NODE_ENV development
